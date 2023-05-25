@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stack>
 #include <stdexcept>
 #include <vector>
 
@@ -24,8 +23,8 @@ private:
 public:
   Graph(int v) : v_(v), e_(0), adj_(v, std::vector<int>(v)) {}
 
-  int v() { return v_; }
-  int e() { return e_; }
+  int v(void) { return v_; }
+  int e(void) { return e_; }
 
   void addEdge(int v, int w) {
     validateVertex(v);
@@ -35,9 +34,9 @@ public:
     adj_[w].push_back(v);
   }
 
-  vector<int> *adj(int v) {
+  vector<int> adj(int v) {
     validateVertex(v);
-    return &adj_[v];
+    return adj_[v];
   }
 
   int degree(int v) {
@@ -48,7 +47,7 @@ public:
 
 void dfs(Graph *g, int s, vector<bool> &m) {
   m[s] = true;
-  for (auto i : (*g->adj(s))) {
+  for (auto i : (g->adj(s))) {
     if (!m[i]) {
       dfs(g, i, m);
     }

@@ -9,7 +9,7 @@
 namespace GraphUtilities {
 void dfs(Graph *g, int s, vector<bool> &m) {
   m[s] = true;
-  for (auto i : (*g->adj(s))) {
+  for (auto i : (g->adj(s))) {
     if (!m[i]) {
       dfs(g, i, m);
     }
@@ -31,21 +31,21 @@ void dfs(DirectedGraph *g, int s, vector<bool> &m) {} // TODO
 vector<WeightedEdge>
 prim(WeightedGraph *g,
      vector<bool> &mk,
-     priority_queue<WeightedEdge, vector<WeightedEdge>, function<bool(WeightedEdge, WeightedEdge)>> *q,
+     priority_queue<WeightedEdge, vector<WeightedEdge>, function<bool(WeightedEdge, WeightedEdge)>> &q,
      int s) {
 
   const auto scan = [&mk, &q](WeightedGraph *_g, int _s) {
     mk[_s].flip();
     for (auto e : _g->adj(_s))
       if (!mk[e.second.second])
-        q->push(e);
+        q.push(e);
   };
 
   vector<WeightedEdge> edges;
   scan(g, s);
-  while (!q->empty()) {
-    auto e = q->top();
-    q->pop();
+  while (!q.empty()) {
+    auto e = q.top();
+    q.pop();
     int u, v;
     u = e.second.first;
     v = e.second.second;
@@ -71,7 +71,7 @@ WeightedGraph *getPrimMST(WeightedGraph *g) {
 
   for (int i = 0; i < g->v(); i++) {
     if (!mk[i]) {
-      vector<WeightedEdge> p = prim(g, mk, &q, i); // rodar em todos os v para gerar floresta
+      vector<WeightedEdge> p = prim(g, mk, q, i); // rodar em todos os v para gerar floresta
       edges.insert(edges.end(), p.begin(), p.end());
     }
   }
